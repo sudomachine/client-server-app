@@ -6,23 +6,35 @@
 #include <sys/socket.h>
 #include <netinet/in.h> // sockaddr_in
 
-int runServer(int domain, int type, int protocol, int port);
-void checkStatus(int status_code, const std::string& func_name);
+#include "Listener.h"
 
 int main()
 {
-    const int DOMAIN = AF_INET;
-    const int SOCK_TYPE = SOCK_STREAM;
-    const int DEFAULT_PROTOCOL = 0;
-    const int PORT = 8080;
-
-    runServer(DOMAIN,
-              SOCK_TYPE,
-              DEFAULT_PROTOCOL,
-              PORT);
+    srv::Listener listener(8080);
+    listener.listen(5);
+    auto client = listener.accept();
+    listener.stop();
 
     return 0;
 }
+
+int runServer(int domain, int type, int protocol, int port);
+void checkStatus(int status_code, const std::string& func_name);
+
+//int main()
+//{
+//    const int DOMAIN = AF_INET;
+//    const int SOCK_TYPE = SOCK_STREAM;
+//    const int DEFAULT_PROTOCOL = 0;
+//    const int PORT = 8080;
+
+//    runServer(DOMAIN,
+//              SOCK_TYPE,
+//              DEFAULT_PROTOCOL,
+//              PORT);
+
+//    return 0;
+//}
 
 
 int runServer(int domain, int type, int protocol, int port)
